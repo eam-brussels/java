@@ -1,3 +1,6 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
 name: Build and deploy JAR app to Azure Web App - webappv123rdf
 
 on:
@@ -16,7 +19,7 @@ jobs:
       - name: Set up Java version
         uses: actions/setup-java@v4
         with:
-          java-version: '21'  # Update to the correct Java version
+          java-version: 'java21'
           distribution: 'microsoft'
 
       - name: Build with Maven
@@ -35,7 +38,7 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write  # This is required for requesting the JWT
+      id-token: write #This is required for requesting the JWT
   
     steps:
       - name: Download artifact from build job
@@ -46,8 +49,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          identity: true 
-          client-id: 60e2e7a4-d50d-48b7-a831-4ba4856863c0
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_E26F3CFECD664DEA98CA65F63CA757EE }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_47985DC06AFF41198BB8E9C28CC553DD }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_5222862131E444518DD96669A0705540 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -56,3 +60,4 @@ jobs:
           app-name: 'webappv123rdf'
           slot-name: 'Production'
           package: '*.jar'
+          
